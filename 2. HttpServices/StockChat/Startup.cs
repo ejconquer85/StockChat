@@ -60,17 +60,31 @@ namespace StockChat
                     o.Password.RequiredLength = 4;
                 }).AddEntityFrameworkStores<StockChatDbContext>()
                 .AddDefaultTokenProviders();
-            
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigin",
-                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            });
-            
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowAllOrigin",
+            //        builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+            //});
+
+            //services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            //{
+            //    builder
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //        .WithOrigins("http://localhost:4201")
+            //        .DisallowCredentials();
+            //}));
+
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IChatMessageRepository, ChatMessageRepository>();
 
-            services.AddSignalR();
+
+
+            services.AddSignalR(o =>
+            {
+                o.EnableDetailedErrors = true;
+            });
 
             ConfigureServicesJwt(services, Configuration);
             
@@ -90,13 +104,20 @@ namespace StockChat
                 
                 app.UseHsts();
             }
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4201")
+                .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+            });
+
+        app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseMvc();
             
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chat");
+                routes.MapHub<ChatHub>("/signalr");
             });
         }
         

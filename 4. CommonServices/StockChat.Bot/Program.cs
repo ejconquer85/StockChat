@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
-using Microsoft.AspNet.SignalR.Client;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR.Client;
 using StockChat.RedisHelper;
 
 namespace StockChat.Bot
@@ -10,32 +13,24 @@ namespace StockChat.Bot
     class Program
     {
 
-        static void SendMessage(string message)
+        static void SendMessage(string messageTosend)
         {
-            var connection = new HubConnection("http://localhost:5005/chat");
-            //Make proxy to hub based on hub name on server
-            var myHub = connection.CreateHubProxy("CustomHub");
-            //Start connection
+            try
+            {
+                var connection = new HubConnectionBuilder()
+                    .WithUrl("http://localhost:5005/signalr")
+                    .Build();
 
-            connection.Start().ContinueWith(task => {
-                if (task.IsFaulted) {
-                    Console.WriteLine("There was an error opening the connection:{0}",
-                        task.Exception.GetBaseException());
-                } else {
-                    Console.WriteLine("Connected");
-                }
+                
+                    connection.StartAsync().Wait();
+                    connection.InvokeAsync("Send","Bot", messageTosend).Wait();
 
-            }).Wait();
-
-            myHub.Invoke<string>("Send", "Bot",message).ContinueWith(task => {
-                if (task.IsFaulted) {
-                    Console.WriteLine("There was an error calling send: {0}",
-                        task.Exception.GetBaseException());
-                } else {
-                    Console.WriteLine(task.Result);
-                }
-            });
-            connection.Stop();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
         }
 
         static string GetCSV(string url)
@@ -84,8 +79,16 @@ namespace StockChat.Bot
             while (true)
             {
                var message = connection.ReceiveMessage();
-               
-               var stockToGet = message.Split('=')[1];
+
+               var messageSplitted = message?.Split('=');
+
+               if (messageSplitted is null || messageSplitted.Length < 2)
+               {
+                   Thread.Sleep(100);
+                   continue;
+               }
+
+               var stockToGet = messageSplitted[1];
 
                var stockPrice = GetStock(stockToGet);
                

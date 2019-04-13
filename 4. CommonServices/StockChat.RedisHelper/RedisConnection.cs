@@ -8,31 +8,35 @@ namespace StockChat.RedisHelper
 {
     public class RedisConnection
     {
-        RedisMqServer _mqHost; 
-
-        public RedisConnection(string redisServer)
-        {
-            var redisFactory = new PooledRedisClientManager(redisServer);
-
-            _mqHost = new RedisMqServer(redisFactory, 2);
-        }
+        
+                private readonly RedisManagerPool _manager;
+                
+                public RedisConnection(string redisServer)
+                {
+                    _manager = new RedisManagerPool(redisServer);
+                }
+        
+               
+        
 
         public void SendMessage(string message)
         {
-            _mqHost.RegisterHandler<string>(m => message);
-            _mqHost.Start();
+            using (var client = _manager.GetClient())
+            {
+                client.Db = 0;
+                client.PushItemToList("Stock",message);
+        
+            }
         }
 
         public string ReceiveMessage()
         {
-            var message = string.Empty;
-            _mqHost.RegisterHandler<string>(m =>
+            using (var client = _manager.GetClient())
             {
-                message = m.GetBody();
-                return message;
-            });
-            _mqHost.Start();
-            return message;
+                client.Db = 0;
+                return client.PopItemFromList("Stock");
+
+            }
         }
 
 

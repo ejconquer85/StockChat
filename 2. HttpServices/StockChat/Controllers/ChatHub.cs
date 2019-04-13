@@ -25,7 +25,7 @@ namespace StockChat.Controllers
         {
             var chatMessage = new ChatMessage {TimeStamp = DateTime.Now, Message = message, User = userName};
 
-            if (message.StartsWith("/stock"))
+            if (message.StartsWith("/stock", StringComparison.Ordinal))
             {
                 var connection = new RedisConnection(_appConfiguration.Value.RedisServer);
                 
@@ -36,7 +36,7 @@ namespace StockChat.Controllers
                 
                 _chatService.InsertAsync(chatMessage);
 
-                Clients.All.SendAsync("sendToAll", userName, message);
+                Clients.All.SendAsync("send", userName, message);
             }
 
         }
