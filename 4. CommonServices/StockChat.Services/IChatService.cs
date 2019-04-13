@@ -1,4 +1,5 @@
-﻿using StockChat.Entities;
+﻿using System.Collections.Generic;
+using StockChat.Entities;
 
 namespace StockChat.Services
 {

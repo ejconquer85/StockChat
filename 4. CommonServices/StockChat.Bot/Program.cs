@@ -15,8 +15,7 @@ namespace StockChat.Bot
 
         static void SendMessage(string messageTosend)
         {
-            try
-            {
+            
                 var connection = new HubConnectionBuilder()
                     .WithUrl("http://localhost:5005/signalr")
                     .Build();
@@ -25,12 +24,6 @@ namespace StockChat.Bot
                     connection.StartAsync().Wait();
                     connection.InvokeAsync("Send","Bot", messageTosend).Wait();
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            
         }
 
         static string GetCSV(string url)
@@ -78,21 +71,29 @@ namespace StockChat.Bot
 
             while (true)
             {
-               var message = connection.ReceiveMessage();
+                try
+                {
+                    var message = connection.ReceiveMessage();
 
-               var messageSplitted = message?.Split('=');
+                    var messageSplitted = message?.Split('=');
 
-               if (messageSplitted is null || messageSplitted.Length < 2)
-               {
-                   Thread.Sleep(100);
-                   continue;
-               }
+                    if (messageSplitted is null || messageSplitted.Length < 2)
+                    {
+                        Thread.Sleep(100);
+                        continue;
+                    }
 
-               var stockToGet = messageSplitted[1];
+                    var stockToGet = messageSplitted[1];
 
-               var stockPrice = GetStock(stockToGet);
+                    var stockPrice = GetStock(stockToGet);
                
-               SendMessage($"{stockToGet.ToUpper()} quote is ${stockPrice} per share");
+                    SendMessage($"{stockToGet.ToUpper()} quote is ${stockPrice} per share");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error: {e.Message}\nStack: {e.StackTrace}\nContinue...");
+                }
+               
             }
 
 

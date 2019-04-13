@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using StockChat.Entities;
 using StockChat.Repository;
 
@@ -8,5 +9,7 @@ namespace StockChat.Services
         public ChatService(IChatMessageRepository  entityRepository) : base(entityRepository)
         {
         }
+
+     
     }
 }
