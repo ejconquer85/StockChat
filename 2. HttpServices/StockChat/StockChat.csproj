@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\3. Domain\StockChat.Entities\StockChat.Entities.csproj" />
+    <ProjectReference Include="..\..\4. CommonServices\StockChat.RedisHelper\StockChat.RedisHelper.csproj" />
     <ProjectReference Include="..\..\4. CommonServices\StockChat.Services\StockChat.Services.csproj" />
   </ItemGroup>
 </Project>

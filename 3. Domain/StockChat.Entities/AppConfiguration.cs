@@ -5,6 +5,7 @@ namespace StockChat.Entities
     {
         public string SiteUrl { get; set; }
         public string Key { get; set; }
-
+        public string RedisServer { get; set; }
+        public string RedisDb { get; set; }
     }
 }

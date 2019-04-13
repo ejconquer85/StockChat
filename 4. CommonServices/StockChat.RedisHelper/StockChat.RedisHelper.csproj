@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\3. Domain\StockChat.Entities\StockChat.Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.1" />
+    <PackageReference Include="ServiceStack.Redis.Core" Version="5.5.0" />
+    <PackageReference Include="ServiceStack.Server.Core" Version="5.5.0" />
+  </ItemGroup>
+
+</Project>

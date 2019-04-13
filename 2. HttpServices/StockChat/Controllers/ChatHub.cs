@@ -1,7 +1,9 @@
 using System;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using StockChat.Entities;
+using StockChat.RedisHelper;
 using StockChat.Services;
 
 namespace StockChat.Controllers
@@ -10,19 +12,33 @@ namespace StockChat.Controllers
     {
         
         private readonly IChatService _chatService;
+        private readonly IOptions<AppConfiguration> _appConfiguration;
+
         
-        public ChatHub(IChatService chatService)
+        public ChatHub(IChatService chatService, IOptions<AppConfiguration> appConfiguration)
         {
             _chatService = chatService;
+            _appConfiguration = appConfiguration;
         }
 
-        public void SendToAll(string userName, string message)
+        public void Send(string userName, string message)
         {
             var chatMessage = new ChatMessage {TimeStamp = DateTime.Now, Message = message, User = userName};
 
-            _chatService.InsertAsync(chatMessage);
+            if (message.StartsWith("/stock"))
+            {
+                var connection = new RedisConnection(_appConfiguration.Value.RedisServer);
+                
+                connection.SendMessage(message);
+            }
+            else
+            {
+                
+                _chatService.InsertAsync(chatMessage);
 
-            Clients.All.SendAsync("sendToAll", userName, message);
+                Clients.All.SendAsync("sendToAll", userName, message);
+            }
+
         }
     }
 }
