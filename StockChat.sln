@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat", "StockChat\StockChat.csproj", "{53D1282B-06FE-418C-A873-94984FF88BAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat", "2. HttpServices\StockChat\StockChat.csproj", "{53D1282B-06FE-418C-A873-94984FF88BAF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. WebApp", "1. WebApp", "{1EC322EA-6EAF-4EC3-BACE-50D7A1F93DFC}"
 EndProject
@@ -13,9 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. UnitTests", "5. UnitTest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Domain", "3. Domain", "{6D59540C-B4A3-429E-99C3-2C0042559B09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat.Entities", "StockChat.Entities\StockChat.Entities.csproj", "{4BD8C13B-5FD9-4636-966B-366906D3D1EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat.Entities", "3. Domain\StockChat.Entities\StockChat.Entities.csproj", "{4BD8C13B-5FD9-4636-966B-366906D3D1EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat.Repository", "StockChat.Repository\StockChat.Repository.csproj", "{F388B9AA-E59D-4929-9CB7-2726D0676066}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat.Services", "4. CommonServices\StockChat.Services\StockChat.Services.csproj", "{5A590296-49D5-4898-BCDF-A9D86D1B525B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat.Repositories", "4. CommonServices\StockChat.Repositories\StockChat.Repositories.csproj", "{A8A44744-28D2-4A06-B996-1D110E6022BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,13 +33,19 @@ Global
 		{4BD8C13B-5FD9-4636-966B-366906D3D1EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BD8C13B-5FD9-4636-966B-366906D3D1EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BD8C13B-5FD9-4636-966B-366906D3D1EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F388B9AA-E59D-4929-9CB7-2726D0676066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F388B9AA-E59D-4929-9CB7-2726D0676066}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F388B9AA-E59D-4929-9CB7-2726D0676066}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F388B9AA-E59D-4929-9CB7-2726D0676066}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A590296-49D5-4898-BCDF-A9D86D1B525B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A590296-49D5-4898-BCDF-A9D86D1B525B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A590296-49D5-4898-BCDF-A9D86D1B525B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A590296-49D5-4898-BCDF-A9D86D1B525B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8A44744-28D2-4A06-B996-1D110E6022BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8A44744-28D2-4A06-B996-1D110E6022BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8A44744-28D2-4A06-B996-1D110E6022BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8A44744-28D2-4A06-B996-1D110E6022BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{53D1282B-06FE-418C-A873-94984FF88BAF} = {14C1A717-AD0B-439F-9805-A6A689C67604}
 		{4BD8C13B-5FD9-4636-966B-366906D3D1EC} = {6D59540C-B4A3-429E-99C3-2C0042559B09}
+		{5A590296-49D5-4898-BCDF-A9D86D1B525B} = {5F9A791B-397F-4E68-8DC7-6B71BA884D2B}
+		{A8A44744-28D2-4A06-B996-1D110E6022BA} = {5F9A791B-397F-4E68-8DC7-6B71BA884D2B}
 	EndGlobalSection
 EndGlobal

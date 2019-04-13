@@ -16,8 +16,10 @@ namespace StockChat.Repository
         {
             base.OnModelCreating(modelBuilder);
             
-            
         }
+        
+        public DbSet<ChatMessage> Messages { get; set; }
+
      
         
     }

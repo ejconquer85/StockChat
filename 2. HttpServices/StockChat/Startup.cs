@@ -15,9 +15,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using StockChat.Controllers;
 using StockChat.Entities;
 using StockChat.Filters;
 using StockChat.Repository;
+using StockChat.Services;
 
 namespace StockChat
 {
@@ -48,7 +50,7 @@ namespace StockChat
 
             services
                 .AddDbContext<StockChatDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("StockChat.Repository")));
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("StockChat.Repositories")));
 
             services.AddIdentity<UserEntity, IdentityRole>(o =>
                 {
@@ -65,7 +67,14 @@ namespace StockChat
                     builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
             
+            services.AddTransient<IChatService, ChatService>();
+            services.AddTransient<IChatMessageRepository, ChatMessageRepository>();
+
+            services.AddSignalR();
+
             ConfigureServicesJwt(services, Configuration);
+            
+            
 
         }
 
@@ -84,6 +93,11 @@ namespace StockChat
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chat");
+            });
         }
         
         private static void ConfigureServicesJwt(IServiceCollection services, IConfiguration configuration)
